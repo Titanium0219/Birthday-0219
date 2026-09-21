@@ -524,38 +524,33 @@
         });
 
     </script>
-    <script>
+   <script>
 const music = document.getElementById("bgMusic");
 
-music.volume = 0.1;
+function startMusic() {
+    if (!music.paused) return;
 
-music.play().then(() => {
-    let volume = 0.2;
-
-    const fadeIn = setInterval(() => {
-        volume += 0.03;
-        music.volume = volume;
-
-        if (volume >= 0.6) {
-            clearInterval(fadeIn);
-        }
-    }, 100);
-}).catch(() => {
-    document.addEventListener("click", () => {
-        music.play();
-
-        let volume = 0.3;
+    music.volume = 0;
+    
+    music.play().then(() => {
+        let volume = 0;
 
         const fadeIn = setInterval(() => {
-            volume += 0.04;
+            volume += 0.02;
             music.volume = volume;
 
-            if (volume >= 1) {
+            if (volume >= 0.4) {
                 clearInterval(fadeIn);
             }
         }, 100);
-    }, { once: true });
-});
+
+    }).catch(error => {
+        console.log("Music play blocked:", error);
+    });
+}
+
+// Page par pehla click hote hi music start
+document.addEventListener("click", startMusic, { once: true });
 </script>
 
 </body>
